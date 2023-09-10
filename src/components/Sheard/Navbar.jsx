@@ -1,6 +1,32 @@
 import { Link } from "react-router-dom";
+import auth from "../../firebase/firebase.init";
+import { useAuthState, useSignOut } from "react-firebase-hooks/auth";
 
 const Navbar = () => {
+  const [signOut, loading, error] = useSignOut(auth);
+  const [user, uLoading, UError] = useAuthState(auth);
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+      </div>
+    );
+  }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+ if(user){
+  console.log(user);
+ }
+ else console.log('user is not access')
+
+  const handleSingOut = async (event) => {
+    event.preventDefault();
+    const success = await signOut();
+    if (success) {
+      alert("You are sign out");
+    }
+  };
   return (
     <div>
       <div className="navbar bg-base-300">
@@ -130,9 +156,19 @@ const Navbar = () => {
           <Link to="/signUp" className="btn w-24 btn-primary mr-3">
             Sign UP
           </Link>
-          <Link to="/login" className="btn  w-24 btn-primary mr-2">
-            Log in
-          </Link>
+          {!user ? (
+            <Link to="/login" className="btn  w-24 btn-primary mr-2">
+              Log in
+            </Link>
+          ) : (
+            <Link
+              onClick={handleSingOut}
+              to="/login"
+              className="btn  w-24 btn-primary mr-2"
+            >
+              Log Out
+            </Link>
+          )}
         </div>
       </div>
     </div>

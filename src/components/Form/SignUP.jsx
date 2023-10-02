@@ -4,11 +4,8 @@ import {
   useUpdateProfile,
 } from "react-firebase-hooks/auth";
 import auth from "../../firebase/firebase.init";
-import { useEffect, useState } from "react";
-const SignUP = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
+const SignUP = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
     useCreateUserWithEmailAndPassword(auth);
 
@@ -17,13 +14,14 @@ const SignUP = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const username = event.target.username.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+    const form = event.target;
+    const username = form.username.value;
+    const email = form.email.value;
+    const password = form.password.value;
 
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: username });
-    navigate("/");
+    navigate("/login");
   };
 
   return (
@@ -110,7 +108,10 @@ const SignUP = () => {
           </div>
           <div className="flex gap-1  justify-center py-8">
             <p>Already have an account?</p>
-            <Link className="underline text-blue-600 "> Log in</Link>
+            <Link to="/login" className="underline text-blue-600 ">
+              {" "}
+              Log in
+            </Link>
           </div>
         </div>
       </div>

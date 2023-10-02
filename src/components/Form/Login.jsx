@@ -1,5 +1,5 @@
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import auth from "../../firebase/firebase.init";
 import { useEffect } from "react";
 
@@ -8,6 +8,8 @@ const Login = () => {
     useSignInWithEmailAndPassword(auth);
 
   const navigate = useNavigate();
+  let location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleSignIn = async (event) => {
     event.preventDefault();
@@ -27,11 +29,10 @@ const Login = () => {
     return <p>Loading...</p>;
   }
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
+  if (user) {
+    return navigate(from, { replace: true });
+  }
+
   return (
     <div>
       <div className="min-h-screen bg-base-200">
@@ -94,7 +95,10 @@ const Login = () => {
 
           <div className="flex gap-1  justify-center py-8">
             <p>Don`t have an account?</p>
-            <Link className="underline text-blue-600 "> Sign up</Link>
+            <Link to="/signup" className="underline text-blue-600 ">
+              {" "}
+              Sign up
+            </Link>
           </div>
         </div>
       </div>

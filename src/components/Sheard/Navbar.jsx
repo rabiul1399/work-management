@@ -15,10 +15,6 @@ const Navbar = () => {
   if (loading) {
     return <p>Loading...</p>;
   }
- if(user){
-  console.log(user);
- }
- else console.log('user is not access')
 
   const handleSingOut = async (event) => {
     event.preventDefault();
@@ -92,10 +88,10 @@ const Navbar = () => {
                 </details>
               </li>
               <li>
-                <a>Pricing</a>
+                <Link to={"/pricing"}>Pricing</Link>
               </li>
               <li>
-                <a>Enterprise</a>
+                <Link to={"/enterprise"}>Enterprise</Link>
               </li>
             </ul>
           </div>
@@ -145,10 +141,10 @@ const Navbar = () => {
               </details>
             </li>
             <li>
-              <a>Pricing</a>
+              <Link to={"/pricing"}>Pricing</Link>
             </li>
             <li>
-              <a>Enterprise</a>
+              <Link to={"/enterprise"}>Enterprise</Link>
             </li>
           </ul>
         </div>
